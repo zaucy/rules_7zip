@@ -14,8 +14,6 @@ Now you can use 7zip 16.04!
 
 ### On POSIX
 
-(untested)
-
 1) Download and extract p7zip bin
 
 Now you can use p7zip 16.02!
