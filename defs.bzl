@@ -8,13 +8,6 @@ def _pkg_7z_impl(ctx):
     for src in ctx.files.srcs:
         args.append(src.path)
 
-    ctx.actions.run(
-        outputs = [archive_file],
-        executable = ctx.executable._7zip,
-        inputs = ctx.files.srcs,
-        arguments = args,
-    )
-
     rename_srcs = []
     rename_args = ["rn", archive_file.path]
 
@@ -24,15 +17,24 @@ def _pkg_7z_impl(ctx):
             rename_args.append(src.path)
             rename_args.append(src.short_path)
 
-    if len(rename_srcs) > 0:
-        rn_file = ctx.actions.declare_file(ctx.attr.name + '.rn.log')
-        outs = depset([rn_file], transitive=[outs])
+    exec_7za = ctx.executable._7zip.path + " "
+
+    if not ctx.attr.full_paths and len(rename_srcs) > 0:
         ctx.actions.run_shell(
-            outputs = [rn_file],
-            command = ctx.executable._7zip.path + " $@ > " + rn_file.path,
+            outputs = [archive_file],
+            command =
+                exec_7za + " ".join(args) + " > nul && " +
+                exec_7za + " ".join(rename_args) + " > nul",
             tools = [ctx.executable._7zip],
-            inputs = rename_srcs + [archive_file],
-            arguments = rename_args,
+            inputs = ctx.files.srcs,
+            arguments = [],
+        )
+    else:
+        ctx.actions.run(
+            outputs = [archive_file],
+            executable = ctx.executable._7zip,
+            inputs = ctx.files.srcs,
+            arguments = args,
         )
 
     return DefaultInfo(files = outs)
@@ -47,6 +49,7 @@ pkg_7z = rule(
             default = '7z',
             values = ['7z', 'zip'],
         ),
+        "full_paths": attr.bool(default = False),
         "_7zip": attr.label(
             default = Label("@7zip//:7za"),
             executable = True,
