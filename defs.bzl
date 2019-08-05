@@ -3,7 +3,14 @@ def _pkg_7z_impl(ctx):
     archive_file = ctx.actions.declare_file(archive_name)
     outs = depset([archive_file])
 
-    args = ["a", "-y", archive_file.path]
+    is_p7zip = not ctx.executable._7zip.path.endswith(".exe")
+
+    args = ["a", "-y"]
+
+    if is_p7zip:
+        args.append("-l")
+
+    args.append(archive_file.path)
 
     for src in ctx.files.srcs:
         args.append(src.path)
