@@ -1,0 +1,6 @@
+package(default_visibility = ["//visibility:public"])
+
+alias(
+    name = "7za",
+    actual = "7z1604-extra/7za.exe",
+)
