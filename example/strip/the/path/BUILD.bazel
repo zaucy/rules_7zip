@@ -1,0 +1,17 @@
+load("@com_github_zaucy_rules_7zip//:defs.bzl", "pkg_7z")
+
+pkg_7z(
+    name = "path",
+    srcs = ["stripped_example.txt"],
+    strip_prefix = "strip/the/path/",
+)
+
+pkg_7z(
+    name = "full_paths",
+    srcs = [
+        "stripped_example.txt",
+        ":path",
+    ],
+    strip_prefix = "strip/the/path/",
+    full_paths = True,
+)
