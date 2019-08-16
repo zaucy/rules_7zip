@@ -6,3 +6,12 @@ local_repository(
 load("@com_github_zaucy_rules_7zip//:setup.bzl", "setup_7zip")
 
 setup_7zip()
+
+load("@com_github_zaucy_rules_7zip//:repo.bzl", "http_7z")
+
+http_7z(
+    name = "bazelregistry_libnoise",
+    # strip_prefix = "libnoise-931a97a2568822e9774a3dcf7364639f7ddfd80b",
+    url = "https://github.com/bazelregistry/libnoise/archive/931a97a2568822e9774a3dcf7364639f7ddfd80b.zip",
+    # sha256 = "fe2491c49fa5fd54acad23e9fbf6be430fa4a8ecd087ac7dd8d36b611f159227",
+)

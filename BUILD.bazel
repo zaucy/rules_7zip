@@ -2,6 +2,7 @@ package(default_visibility = ["//visibility:public"])
 
 exports_files([
     "defs.bzl",
+    "repo.bzl",
     "setup.bzl",
     "windows.BUILD.bazel",
     "posix.BUILD.bazel",
