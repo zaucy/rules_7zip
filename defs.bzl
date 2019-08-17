@@ -32,6 +32,21 @@ def _write_strip_prefix_listfile(ctx = None, listFile = None):
 
     return len(listFileLines) > 0
 
+def _write_remap_listfile(ctx = None, listFile = None):
+    listFileLines = []
+
+    for key in ctx.attr.remap_paths:
+        listFileLines.append(key)
+        listFileLines.append(ctx.attr.remap_paths[key])
+
+    ctx.actions.write(
+        output = listFile,
+        content = "\n".join(listFileLines),
+        is_executable = False,
+    )
+
+    return len(listFileLines) > 0
+
 def _pkg_7z_impl(ctx):
     name = ctx.attr.name
     archive_name = name + '.' + ctx.attr.extension
@@ -87,6 +102,18 @@ def _pkg_7z_impl(ctx):
         if filledStrippedListFile:
             command += " && " + exec_7za_rn + "@" + strippedSrcsListFile.path + " > nul"
 
+    if len(ctx.attr.remap_paths.keys()) > 0:
+        remapSrcsListFile = ctx.actions.declare_file(name + "__remap_srcs.listfile")
+        listFileInputs.append(remapSrcsListFile)
+
+        filledRemapListFile = _write_remap_listfile(
+            ctx = ctx,
+            listFile = remapSrcsListFile,
+        )
+
+        if filledRemapListFile:
+            command += " && " + exec_7za_rn + "@" + remapSrcsListFile.path + " > nul"
+
     ctx.actions.run_shell(
         outputs = [archive_file],
         command = command,
@@ -111,6 +138,7 @@ pkg_7z = rule(
             values = ['7z', 'zip'],
         ),
         "strip_prefix": attr.string(),
+        "remap_paths": attr.string_dict(default = {}),
         "full_paths": attr.bool(default = False),
         "_7zip": attr.label(
             default = Label("@7zip//:7za"),
