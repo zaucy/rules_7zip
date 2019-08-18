@@ -6,12 +6,12 @@ This repository adds [7zip](https://www.7-zip.org/) support for your [bazel](htt
 
 Add this to your `WORKSPACE`:
 
-```starlark
+```python
 http_archive(
     name = "com_github_zaucy_rules_7zip",
-    strip_prefix = "rules_7zip-8635e3dab3636cc3475c11c1d348b72064b379c6",
-    urls = ["https://github.com/zaucy/rules_7zip/archive/8635e3dab3636cc3475c11c1d348b72064b379c6.zip"],
-    sha256 = "6ca385da01f58ee6162473ed4f3ed41d6175ba7ed4b2fcefbc7b8259db93aa40",
+    strip_prefix = "rules_7zip-e95ba876db445cf2c925c02c4bc18ed37a503fd8",
+    urls = ["https://github.com/zaucy/rules_7zip/archive/e95ba876db445cf2c925c02c4bc18ed37a503fd8.zip"],
+    sha256 = "b66e1c712577b0c029d4c94228dba9c8aacdcdeb88c3b1eeeffd00247ba5a856",
 )
 
 load("@com_github_zaucy_rules_7zip//:setup.bzl", "setup_7zip")
@@ -23,8 +23,11 @@ setup_7zip()
 ### On Windows
 
 1) Downloads and extracts 7zip 9.20 zip file
-2) Downloads 7zip 16.04 .7z file
-3) Extracts 7zip 16.04 .7z file with 7zip 9.20
+2) Downloads 7zip 16.04 extras .7z file
+3) Extracts 7zip 16.04 extras .7z file with 7zip 9.20
+4) 7za is now available from 7zip 16.04 extras
+5) Downloads 7zip 16.04 msi installer
+6) Extract files from 16.04 msi installer using 7za
 
 Now you can use 7zip 16.04!
 
