@@ -4,3 +4,8 @@ alias(
     name = "7za",
     actual = "7z1604-extra/7za.exe",
 )
+
+alias(
+    name = "7z",
+    actual = "7z1604-x64/7z.exe"
+)

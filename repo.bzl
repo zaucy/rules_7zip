@@ -77,13 +77,24 @@ easier but should be set before shipping.""",
             "Either `workspace_file` or `workspace_file_content` can be " +
             "specified, or neither, but not both.",
     ),
-    "_7zip": attr.label(
-        default = Label("@7zip//:7za"),
-        executable = True,
+    "_7zip_windows": attr.label(
+        default = Label("@7zip//:7z1604-x64/7z.exe"),
         allow_single_file = True,
-        cfg = "host",
+    ),
+    "_7zip_unix": attr.label(
+        default = Label("@7zip//:bin/7z"),
+        allow_single_file = True,
     ),
 }
+
+def _pickExtname(urls):
+    url = urls[0]
+    dotIndex = url.rfind('.')
+    if dotIndex == -1:
+        return ""
+
+    return url[dotIndex:]
+    # return ".exe"
 
 def _http_7z_impl(rctx):
     """Implementation of the http_7z rule."""
@@ -98,28 +109,32 @@ def _http_7z_impl(rctx):
     if rctx.attr.url:
         all_urls = [rctx.attr.url] + all_urls
 
-    download_path = rctx.path("_http_7z/" + rctx.name)
+    exec7zip = None
 
-    print(download_path)
-    print(rctx.attr._7zip)
+    if rctx.os.name.startswith("windows"):
+        exec7zip = rctx.path(rctx.attr._7zip_windows)
+    else:
+        exec7zip = rctx.path(rctx.attr._7zip_unix)
+
+    download_path = rctx.path("_http_7z/" + rctx.name + _pickExtname(all_urls))
 
     download_info = rctx.download(
         all_urls,
         output = download_path,
         sha256 = rctx.attr.sha256,
+        canonical_id = rctx.attr.sha256,
         executable = False,
     )
 
-    exec7zip = rctx.attr._7zip
+    extractResult = rctx.execute([
+        exec7zip,
+        "x",
+        download_path,
+    ])
 
-    rctx.execute(
-        ["external/7zip/7za", "x", download_path],
-        quiet = False,
-    )
-
-    print(download_info)
-
-    workspace_and_buildfile
+    if extractResult.return_code != 0:
+        err = extractResult.stderr
+        fail("Failed to extract repo archive with 7zip: %s" % err)
 
     patch(rctx)
     workspace_and_buildfile(rctx)
