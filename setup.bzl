@@ -84,6 +84,7 @@ def _posix_setup_7zip(rctx, build_template):
     rctx.download_and_extract(
         url = "https://astuteinternet.dl.sourceforge.net/project/p7zip/p7zip/16.02/p7zip_16.02_x86_linux_bin.tar.bz2",
         stripPrefix = "p7zip_16.02/bin",
+        sha256 = "96c93a440b04013a23fbea39555816c0dac51d3ade56153f0a68c41d3c1d7b61",
     )
 
     rctx.template("BUILD.bazel", rctx.path(build_template), executable = False)
