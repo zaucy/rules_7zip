@@ -1,3 +1,6 @@
 package(default_visibility = ["//visibility:public"])
 
-exports_files(["**/*"])
+exports_files([
+    "7za",
+    "7z",
+])
