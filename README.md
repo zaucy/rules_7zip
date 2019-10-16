@@ -33,7 +33,7 @@ Now you can use 7zip 16.04!
 
 ### On POSIX
 
-1) Download and extract p7zip bin
+1) Download and extract p7zip source and build
 
 Now you can use p7zip 16.02!
 

@@ -82,11 +82,11 @@ def _windows_setup_7zip(rctx, build_template):
 
 def _posix_setup_7zip(rctx, build_template):
     rctx.download_and_extract(
-        url = "https://astuteinternet.dl.sourceforge.net/project/p7zip/p7zip/16.02/p7zip_16.02_x86_linux_bin.tar.bz2",
-        stripPrefix = "p7zip_16.02/bin",
-        sha256 = "96c93a440b04013a23fbea39555816c0dac51d3ade56153f0a68c41d3c1d7b61",
+        url = "https://downloads.sourceforge.net/project/p7zip/p7zip/16.02/p7zip_16.02_src_all.tar.bz2",
+        stripPrefix = "p7zip_16.02",
+        sha256 = "5eb20ac0e2944f6cb9c2d51dd6c4518941c185347d4089ea89087ffdd6e2341f",
     )
-
+    rctx.patch(rctx.attr._p7zip_patch, strip = 1)
     rctx.template("BUILD.bazel", rctx.path(build_template), executable = False)
 
 def _setup_7zip_impl(rctx):
@@ -106,6 +106,9 @@ _setup_7zip = repository_rule(
         "_windows_build_template": attr.label(
             default = Label("@com_github_zaucy_rules_7zip//:windows.BUILD.bazel"),
         ),
+        "_p7zip_patch": attr.label(
+            default = Label("@com_github_zaucy_rules_7zip//patches:p7zip_cpu_arch_include.patch"),
+        )
     },
 )
 

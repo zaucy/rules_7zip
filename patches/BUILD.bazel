@@ -1,0 +1,3 @@
+exports_files([
+    "p7zip_cpu_arch_include.patch"
+])

@@ -1,0 +1,11 @@
+--- a/CPP/myWindows/mySplitCommandLine.cpp
++++ b/CPP/myWindows/mySplitCommandLine.cpp
+@@ -7,7 +7,7 @@
+ #include "7zip/MyVersion.h"
+ #include "Common/StdOutStream.h"
+ #include "Common/IntToString.h"
+-#include "../C/CpuArch.h"
++#include "../../C/CpuArch.h"
+ 
+ #ifdef ENV_HAVE_LOCALE
+ #include <locale.h>
