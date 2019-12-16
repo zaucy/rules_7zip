@@ -10,6 +10,7 @@ _7zip_defines = [
 
 _7zip_copts = [
   "-w",
+  "-Wno-c++11-narrowing",
 ]
 
 cc_library(
