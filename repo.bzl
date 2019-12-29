@@ -77,12 +77,8 @@ easier but should be set before shipping.""",
             "Either `workspace_file` or `workspace_file_content` can be " +
             "specified, or neither, but not both.",
     ),
-    "_7zip_windows": attr.label(
-        default = Label("@7zip//:7z1604-x64/7z.exe"),
-        allow_single_file = True,
-    ),
-    "_7zip_unix": attr.label(
-        default = Label("@7zip//:bin/7z"),
+    "_7zip": attr.label(
+        default = Label("@7zip//:7z"),
         allow_single_file = True,
     ),
 }
@@ -109,13 +105,7 @@ def _http_7z_impl(rctx):
     if rctx.attr.url:
         all_urls = [rctx.attr.url] + all_urls
 
-    exec7zip = None
-
-    if rctx.os.name.startswith("windows"):
-        exec7zip = rctx.path(rctx.attr._7zip_windows)
-    else:
-        exec7zip = rctx.path(rctx.attr._7zip_unix)
-
+    exec7zip = rctx.path(rctx.attr._7zip)
     download_path = rctx.path("_http_7z/" + rctx.name + _pickExtname(all_urls))
 
     download_info = rctx.download(
