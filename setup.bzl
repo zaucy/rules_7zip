@@ -22,7 +22,7 @@ def _windows_setup_7zip(rctx, build_template):
 
     if extraExtractResult.return_code != 0:
         errMsg = extraExtractResult.stderr
-        fail("Failed to extract 7z1604-extra with 7za920/7za.exe: %s" % errMsg)
+        fail("Failed to extract 7z1604-extra with 7za920/7za.exe (return code {}): {}".format(extraExtractResult.return_code, errMsg))
 
     rctx.download(
         url = "https://www.7-zip.org/a/7z1604-x64.msi",
@@ -40,7 +40,7 @@ def _windows_setup_7zip(rctx, build_template):
 
     if extractResult.return_code != 0:
         errMsg = extractResult.stderr
-        fail("Failed to extract 7z1604-x64.msi: %s " % errMsg)
+        fail("Failed to extract 7z1604-x64.msi (return code {}): {} ".format(extractResult.return_codem, errMsg))
 
     rctx.execute([
         "7z1604-extra/7za.exe",
