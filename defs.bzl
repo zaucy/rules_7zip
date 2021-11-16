@@ -114,7 +114,7 @@ def _pkg_7z_impl(ctx):
         if filledRemapListFile:
             command += " && " + exec_7za_rn + "@" + remapSrcsListFile.path + " > nul"
 
-    ctx.actions.run(
+    ctx.actions.run_shell(
         outputs = [archive_file],
         command = command,
         tools = [ctx.executable._7zip],

@@ -1,4 +1,4 @@
-load("@com_github_zaucy_rules_7zip//:defs.bzl", "pkg_7z")
+load("@rules_7zip//:defs.bzl", "pkg_7z")
 
 genrule(
     name = "genrule_example",

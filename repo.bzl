@@ -1,6 +1,4 @@
-load("@bazel_tools//tools/build_defs/repo:utils.bzl",
-    "patch", "update_attrs", "workspace_and_buildfile")
-load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_file")
+load("@bazel_tools//tools/build_defs/repo:utils.bzl", "patch", "update_attrs", "workspace_and_buildfile")
 
 _http_7z_attrs = {
     "url": attr.string(

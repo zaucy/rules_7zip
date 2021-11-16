@@ -80,13 +80,13 @@ _setup_7zip = repository_rule(
     implementation = _setup_7zip_impl,
     attrs = {
         "_posix_build_template": attr.label(
-            default = Label("@com_github_zaucy_rules_7zip//:posix.BUILD.bazel"),
+            default = Label("@rules_7zip//:posix.BUILD.bazel"),
         ),
         "_windows_build_template": attr.label(
-            default = Label("@com_github_zaucy_rules_7zip//:windows.BUILD.bazel"),
+            default = Label("@rules_7zip//:windows.BUILD.bazel"),
         ),
         "_p7zip_patch": attr.label(
-            default = Label("@com_github_zaucy_rules_7zip//patches:p7zip_cpu_arch_include.patch"),
+            default = Label("@rules_7zip//patches:p7zip_cpu_arch_include.patch"),
         )
     },
 )

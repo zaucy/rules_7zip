@@ -1,8 +1,8 @@
 local_repository(
-    name = "com_github_zaucy_rules_7zip",
+    name = "rules_7zip",
     path = "../",
 )
 
-load("@com_github_zaucy_rules_7zip//:setup.bzl", "setup_7zip")
+load("@rules_7zip//:setup.bzl", "setup_7zip")
 
 setup_7zip()
