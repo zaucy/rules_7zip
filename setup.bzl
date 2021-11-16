@@ -1,84 +1,63 @@
 
 def _windows_setup_7zip(rctx, build_template):
-    rctx.download_and_extract(
-        url = "https://www.7-zip.org/a/7za920.zip",
-        output = "7za920",
-        sha256 = "2a3afe19c180f8373fa02ff00254d5394fec0349f5804e0ad2f6067854ff28ac",
+
+    msiexec = rctx.which("msiexec.exe")
+    if not msiexec:
+        fail("Unable to find msiexec.exe")
+
+    rctx.report_progress("Fetching 7z1900-x64.msi")
+    rctx.download(
+        url = "https://www.7-zip.org/a/7z1900-x64.msi",
+        output = "7z1900-x64.msi",
+        sha256 = "a7803233eedb6a4b59b3024ccf9292a6fffb94507dc998aa67c5b745d197a5dc",
     )
+
+    msi_path = str(rctx.path("7z1900-x64.msi")).replace("/", "\\")
+    msi_target_dir = str(rctx.path("7z1900-x64")).replace("/", "\\")
+
+    msi_extract_args = [
+        msiexec,
+        "/a",
+        msi_path,
+        "TARGETDIR=%s" % msi_target_dir,
+        "/qn",
+    ]
+
+    rctx.report_progress("Extracting %s" % msi_path)
+    msi_extract_result = rctx.execute(msi_extract_args)
+
+    if msi_extract_result.return_code != 0:
+        err_message = msi_extract_result.stdout if msi_extract_result.stdout else msi_extract_result.stderr
+        fail("7zip MSI extraction failed: exit_code=%s\n\n%s" % (msi_extract_result.return_code, err_message))
+
+    exec_7z_path = rctx.path("7z1900-x64/Files/7-Zip/7z.exe")
+
+    if not exec_7z_path.exists:
+        fail("Missing %s after MSI extraction" % exec_7z_path)
 
     rctx.download(
-        url = "https://www.7-zip.org/a/7z1604-extra.7z",
-        output = "7z1604-extra.7z",
-        sha256 = "59f41025acc40cf2e0b30b5cc6e4bcb1e07573201e256fbe8edb3c9c514dd251",
+        url = "https://www.7-zip.org/a/7z1900-extra.7z",
+        output = "7z1900-extra.7z",
+        sha256 = "af6eca1c8578df776189ee7785ab5d21525e42590f788c4e82e961a36c3a5306",
     )
 
-    extraExtractResult = rctx.execute([
-        "7za920/7za.exe",
-        "x",
-        "-y",
-        "-o7z1604-extra",
-        "7z1604-extra.7z"
-    ])
+    extra_archive_path = rctx.path("7z1900-extra.7z")
+    extra_dir_path = rctx.path("7z1900-extra")
 
-    if extraExtractResult.return_code != 0:
-        errMsg = extraExtractResult.stderr
-        fail("Failed to extract 7z1604-extra with 7za920/7za.exe (return code {}): {}".format(extraExtractResult.return_code, errMsg))
-
-    rctx.download(
-        url = "https://www.7-zip.org/a/7z1604-x64.msi",
-        output = "7z1604-x64.msi",
-        sha256 = "b3885b2f090f1e9b5cf2b9f802b07fe88e472d70d60732db9f830209ac296067",
-    )
-
-    extractResult = rctx.execute([
-        "7z1604-extra/7za.exe",
-        "x",
-        "-y",
-        "-o7z1604-x64",
-        "7z1604-x64.msi",
-    ])
-
-    if extractResult.return_code != 0:
-        errMsg = extractResult.stderr
-        fail("Failed to extract 7z1604-x64.msi (return code {}): {} ".format(extractResult.return_codem, errMsg))
-
-    rctx.execute([
-        "7z1604-extra/7za.exe",
-        "a",
-        "-y",
-        "7z1604-x64-minimal.7z",
-        "7z1604-x64/License.txt",
-        "7z1604-x64/_7z.exe",
-        "7z1604-x64/_7z.dll",
-    ])
-
-    rctx.execute([
-        "7z1604-extra/7za.exe",
-        "rn",
-        "-y",
-        "7z1604-x64-minimal.7z",
-        "7z1604-x64/_7z.exe",
-        "7z1604-x64/7z.exe",
-        "7z1604-x64/_7z.dll",
-        "7z1604-x64/7z.dll",
-    ])
-
-    rctx.delete("7z1604-x64")
-
-    rctx.execute([
-        "7z1604-extra/7za.exe",
+    rctx.report_progress("Extracting %s" % extra_archive_path)
+    extra_extract_result = rctx.execute([
+        exec_7z_path,
         "e",
+        extra_archive_path,
+        "-o%s" % extra_dir_path,
         "-y",
-        "-o7z1604-x64",
-        "7z1604-x64-minimal.7z",
     ])
+
+    if extra_extract_result.return_code != 0:
+        err_message = msi_extract_result.stdout if msi_extract_result.stdout else msi_extract_result.stderr
+        fail("Extracting 7z1900-extra.7z failed: exit_code=%s\n\n%s" % (msi_extract_result.return_code, err_message))
 
     rctx.template("BUILD.bazel", rctx.path(build_template), executable = False)
-
-    # Cleanup unused files
-    rctx.delete("7z1604-x64-minimal.7z")
-    rctx.delete("7z1604-x64.msi")
-    rctx.delete("7z1604-extra.7z")
 
 def _posix_setup_7zip(rctx, build_template):
     rctx.download_and_extract(

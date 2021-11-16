@@ -2,10 +2,10 @@ package(default_visibility = ["//visibility:public"])
 
 alias(
     name = "7za",
-    actual = "7z1604-extra/7za.exe",
+    actual = "7z1900-extra/7za.exe",
 )
 
 alias(
     name = "7z",
-    actual = "7z1604-x64/7z.exe"
+    actual = "7z1900-x64/Files/7-Zip/7z.exe"
 )
