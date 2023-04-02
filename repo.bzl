@@ -76,7 +76,7 @@ easier but should be set before shipping.""",
             "specified, or neither, but not both.",
     ),
     "_7zip_windows": attr.label(
-        default = Label("@7zip//:7z1604-x64/7z.exe"),
+        default = Label("@7zip//:7z1900-x64/Files/7-Zip/7z.exe"),
         allow_single_file = True,
     ),
     "_7zip_unix": attr.label(
@@ -87,7 +87,7 @@ easier but should be set before shipping.""",
 
 def _pickExtname(urls):
     url = urls[0]
-    dotIndex = url.rfind('.')
+    dotIndex = url.rfind(".")
     if dotIndex == -1:
         return ""
 
