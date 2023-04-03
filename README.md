@@ -9,9 +9,9 @@ Add this to your `WORKSPACE`:
 ```python
 http_archive(
     name = "rules_7zip",
-    strip_prefix = "rules_7zip-25d3b858a37580dbc1f1ced002e210be15012e2f",
-    urls = ["https://github.com/zaucy/rules_7zip/archive/25d3b858a37580dbc1f1ced002e210be15012e2f.zip"],
-    sha256 = "29ba984e2a7d48540faa839efaf09be4b880d211a93575e7ac87abffc12dbdea",
+    strip_prefix = "rules_7zip-e00b15d3cb76b78ddc1c15e7426eb1d1b7ddaa3e",
+    urls = ["https://github.com/zaucy/rules_7zip/archive/e00b15d3cb76b78ddc1c15e7426eb1d1b7ddaa3e.zip"],
+    sha256 = "fd9e99f6ccb9e946755f9bc444abefbdd1eedb32c372c56dcacc7eb486aed178",
 )
 
 load("@rules_7zip//:setup.bzl", "setup_7zip")
