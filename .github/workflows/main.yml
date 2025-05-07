@@ -1,0 +1,17 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - "**"
+
+jobs:
+  example:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - run: bazelisk build ...
+        working-directory: example
