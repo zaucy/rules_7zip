@@ -1,3 +1,6 @@
 """Bazel build and test dependencies."""
 
 module(name = "rules_7zip")
+
+extension_setup_7zip = use_extension("@rules_7zip//:extension_setup_7zip.bzl", "extension_setup_7zip")
+use_repo(extension_setup_7zip, "zip7")

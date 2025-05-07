@@ -141,7 +141,7 @@ pkg_7z = rule(
         "remap_paths": attr.string_dict(default = {}),
         "full_paths": attr.bool(default = False),
         "_7zip": attr.label(
-            default = Label("@7zip//:7za"),
+            default = Label("@zip7//:7za"),
             executable = True,
             allow_single_file = True,
             cfg = "host",
