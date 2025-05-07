@@ -1,5 +1,0 @@
-{
-	"files.associations": {
-		"*BUILD.bazel": "starlark"
-	}
-}

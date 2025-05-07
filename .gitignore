@@ -1,4 +1,5 @@
-/bazel-*
-/.bazelversion
 /.vscode/*
-!/.vscode/settings.json
+/.cache
+
+bazel-*
+*.bazel.lock
