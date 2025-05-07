@@ -3,9 +3,9 @@ load("@rules_7zip//:defs.bzl", "pkg_7z")
 genrule(
     name = "genrule_example",
     srcs = ["example.txt"],
-    tools = ["@7zip//:7za"],
+    tools = ["@zip7//:7za"],
     outs = ["genrule_example.7z"],
-    cmd = "$(location @7zip//:7za) a $@ $(SRCS)",
+    cmd = "$(location @zip7//:7za) a $@ $(SRCS)",
 )
 
 pkg_7z(

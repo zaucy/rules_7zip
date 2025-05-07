@@ -92,4 +92,4 @@ _setup_7zip = repository_rule(
 )
 
 def setup_7zip():
-    _setup_7zip(name = "7zip")
+    _setup_7zip(name = "zip7")

@@ -1,6 +1,15 @@
-###############################################################################
-# Bazel now uses Bzlmod by default to manage external dependencies.
-# Please consider migrating your external dependencies from WORKSPACE to MODULE.bazel.
-#
-# For more details, please check https://github.com/bazelbuild/bazel/issues/18958
-###############################################################################
+"""Bazel test of rules_7zip."""
+
+module(name = "test_rules_7zip")
+
+# TODO: Remove `local_path_override` once `rules_7zip` are available in BCR (Bazel Central Registry).
+bazel_dep(name = "rules_7zip")
+local_path_override(
+    module_name = "rules_7zip",
+    path = "../"
+)
+
+single_version_override(module_name = "rules_cc", version = "0.0.16")
+
+extension_setup_7zip = use_extension("@rules_7zip//:extension_setup_7zip.bzl", "extension_setup_7zip")
+use_repo(extension_setup_7zip, "zip7")
