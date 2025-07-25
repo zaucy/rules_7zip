@@ -1,6 +1,12 @@
 """Bazel build and test dependencies."""
 
-module(name = "rules_7zip")
+module(
+    name = "rules_7zip",
+    # 7zip name was illegal before 8.3.0
+    # SEE: https://github.com/bazelbuild/bazel/commit/26aac79a9f6e0f8d3a61ae9c7614bdba1b289f71
+    bazel_compatibility = [">=8.3.0"],
+)
 
 extension_setup_7zip = use_extension("@rules_7zip//:extension_setup_7zip.bzl", "extension_setup_7zip")
-use_repo(extension_setup_7zip, "zip7")
+use_repo(extension_setup_7zip, "7zip")
+

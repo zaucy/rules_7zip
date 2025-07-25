@@ -1,6 +1,6 @@
 # rules_7zip
 
-This repository adds [7zip](https://www.7-zip.org/) support for your [bazel](https://bazel.build/) projects. If you want to just use the 7zip executable then you can access it as `@zip7//:7za` or use the `pkg_7z` rule.
+This repository adds [7zip](https://www.7-zip.org/) support for your [bazel](https://bazel.build/) projects. If you want to just use the 7zip executable then you can access it as `@7zip//:7za` or use the `pkg_7z` rule.
 
 ## Installation
 
@@ -10,9 +10,8 @@ Add this to your `MODULE.bazel` file:
 bazel_dep(name = "rules_7zip")
 
 extension_setup_7zip = use_extension("@rules_7zip//:extension_setup_7zip.bzl", "extension_setup_7zip")
-use_repo(extension_setup_7zip, "zip7")
+use_repo(extension_setup_7zip, "7zip")
 ```
-Note that "7zip" is renamed to "zip7" due to constraints with naming inside Bzlmod. In case you were using `@7zip` in your code, modify that with `@zip7`.
 
 In case you're not using Bzlmod, add this to your `WORKSPACE`:
 
@@ -46,7 +45,7 @@ http_7z(name)
 
 ## How it works
 
-7zip pre-built binaries are used on windows and p7zip is downloaded and compiles on all other platforms. Regardless of the platform you use rules_7zip you will be able to run and utilise `@zip7//:7z` and `@zip7//:7za`.
+7zip pre-built binaries are used on windows and p7zip is downloaded and compiles on all other platforms. Regardless of the platform you use rules_7zip you will be able to run and utilise `@7zip//:7z` and `@7zip//:7za`.
 
 ### On Windows
 

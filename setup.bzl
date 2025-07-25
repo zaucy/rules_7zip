@@ -1,6 +1,4 @@
-
 def _windows_setup_7zip(rctx, build_template):
-
     msiexec = rctx.which("msiexec.exe")
     if not msiexec:
         fail("Unable to find msiexec.exe")
@@ -87,9 +85,9 @@ _setup_7zip = repository_rule(
         ),
         "_p7zip_patch": attr.label(
             default = Label("@rules_7zip//patches:p7zip_cpu_arch_include.patch"),
-        )
+        ),
     },
 )
 
 def setup_7zip():
-    _setup_7zip(name = "zip7")
+    _setup_7zip(name = "7zip")

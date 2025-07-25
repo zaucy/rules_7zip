@@ -76,11 +76,11 @@ easier but should be set before shipping.""",
             "specified, or neither, but not both.",
     ),
     "_7zip_windows": attr.label(
-        default = Label("@zip7//:7z1900-x64/Files/7-Zip/7z.exe"),
+        default = Label("@7zip//:7z1900-x64/Files/7-Zip/7z.exe"),
         allow_single_file = True,
     ),
     "_7zip_unix": attr.label(
-        default = Label("@zip7//:bin/7z"),
+        default = Label("@7zip//:bin/7z"),
         allow_single_file = True,
     ),
 }
