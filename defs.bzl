@@ -49,7 +49,7 @@ def _write_remap_listfile(ctx = None, listFile = None):
 
 def _pkg_7z_impl(ctx):
     name = ctx.attr.name
-    archive_name = name + '.' + ctx.attr.extension
+    archive_name = name + "." + ctx.attr.extension
     archive_file = ctx.actions.declare_file(archive_name)
     outs = depset([archive_file])
 
@@ -85,7 +85,7 @@ def _pkg_7z_impl(ctx):
         listFileInputs.append(rnSrcsListFile)
         filledRnListFile = _write_rn_listfile(
             ctx = ctx,
-            listFile = rnSrcsListFile
+            listFile = rnSrcsListFile,
         )
 
         if filledRnListFile:
@@ -134,14 +134,14 @@ pkg_7z = rule(
             allow_files = True,
         ),
         "extension": attr.string(
-            default = '7z',
-            values = ['7z', 'zip'],
+            default = "7z",
+            values = ["7z", "zip"],
         ),
         "strip_prefix": attr.string(),
         "remap_paths": attr.string_dict(default = {}),
         "full_paths": attr.bool(default = False),
         "_7zip": attr.label(
-            default = Label("@zip7//:7za"),
+            default = Label("@7zip//:7za"),
             executable = True,
             allow_single_file = True,
             cfg = "host",
